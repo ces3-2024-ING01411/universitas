@@ -87,10 +87,10 @@
     <div class="hero-body">
         <div class="container">
             <h1 class="title">
-                Tabs
+                API
             </h1>
             <h2 class="subtitle">
-                example
+                Universitas
             </h2>
         </div>
     </div>
@@ -98,8 +98,8 @@
         <ul>
             <li data-target="pane-1" id="1">
                 <a>
-                    <span class="icon is-small"><i class="fa fa-image"></i></span>
-                    <span>Pictures</span>
+                    <span class="icon is-small"><i class="fa fa-map-marker"></i></span>
+                    <span>Ruta entre bloques</span>
                 </a>
             </li>
             <li data-target="pane-2" id="2" class="is-active">
