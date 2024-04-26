@@ -12,7 +12,7 @@ public class ConexionMySql {
     private Connection cnn;
 
     ConexionMySql(){
-        user = "root";
+        this.user = "root";
         password = "";
         port = 3306;
         host = "localhost";
