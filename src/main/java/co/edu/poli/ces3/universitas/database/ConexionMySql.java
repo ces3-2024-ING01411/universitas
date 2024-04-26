@@ -105,7 +105,6 @@ public class ConexionMySql {
 
             ApiFuture<WriteResult> result = docRef.set(data);
 
-
             System.out.println("Update time : " + result.get().getUpdateTime());
 
 
