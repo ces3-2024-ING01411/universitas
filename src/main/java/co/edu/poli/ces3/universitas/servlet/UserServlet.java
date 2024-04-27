@@ -51,31 +51,14 @@ public class UserServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.setContentType("application/json");
         try {
-            ArrayList<User> listUsers = (ArrayList<User>)cnn.getUsers();
-            PrintWriter out = response.getWriter();
-            out.println("<html><body>");
-            out.println("<h1>GET</h1>");
+            if(request.getParameter("id") == null) {
+                ArrayList<User> listUsers = (ArrayList<User>) cnn.getUsers();
+                PrintWriter out = response.getWriter();
+                out.print(gson.toJson(listUsers));
+                out.flush();
+            }else{
 
-            out.print(
-                    "<table>" +
-                            "<thead>" +
-                            "<tr>" +
-                            "<th>Nombre</th>" +
-                            "<th>Apellido</th>" +
-                            "</thead>" +
-                            "<tbody>"
-            );
-
-            for (User u: listUsers) {
-                out.print(
-                        "<tr>" +
-                                "<td>"+u.getName()+"</td>" +
-                                "<td>"+u.getLastName()+"</td>" +
-                                "</tr>"
-                );
             }
-            out.print("</tbody></table>");
-            out.println("</body></html>");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
