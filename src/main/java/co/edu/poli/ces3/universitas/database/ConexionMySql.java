@@ -1,6 +1,9 @@
 package co.edu.poli.ces3.universitas.database;
 
+import co.edu.poli.ces3.universitas.dao.User;
+
 import java.sql.*;
+import java.util.*;
 
 public class ConexionMySql {
 
@@ -11,7 +14,7 @@ public class ConexionMySql {
     private String nameDatabase;
     private Connection cnn;
 
-    ConexionMySql(){
+    public ConexionMySql(){
         this.user = "root";
         password = "";
         port = 3306;
@@ -19,7 +22,7 @@ public class ConexionMySql {
         nameDatabase = "ces3-universitas";
     }
 
-    public void createConexion(){
+    private void createConexion(){
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
             cnn = DriverManager.getConnection(
@@ -32,21 +35,19 @@ public class ConexionMySql {
         }
     }
 
-    public void getUsers() throws SQLException {
+    public List<User> getUsers() throws SQLException {
         String sql = "SELECT * FROM users";
         String[] nameColumns = {"id", "name", "lastName", "mail", "password", "createdAt", "updatedAt", "deletedAt"};
+        List<User> list = new ArrayList<>();
         try {
             createConexion();
             Statement stmt = cnn.createStatement();
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()){
-                for (String field: nameColumns) {
-                    System.out.println("************");
-                    System.out.println("Name Column: " + result.getString(field));
-                    System.out.println("*************");
-                }
+                list.add(new User(result.getString("name"), result.getString("lastName")));
             }
             stmt.close();
+            return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
