@@ -37,21 +37,29 @@ public class ConexionMySql {
 
     public List<User> getUsers() throws SQLException {
         String sql = "SELECT * FROM users";
-        String[] nameColumns = {"id", "name", "lastName", "mail", "password", "createdAt", "updatedAt", "deletedAt"};
         List<User> list = new ArrayList<>();
         try {
             createConexion();
             Statement stmt = cnn.createStatement();
             ResultSet result = stmt.executeQuery(sql);
             while(result.next()){
-                list.add(new User(result.getString("name"), result.getString("lastName")));
+                list.add(new User(result.getInt("id"),
+                        result.getString("name"),
+                        result.getString("lastName"),
+                        result.getString("mail"),
+                        result.getString("password"),
+                        result.getDate("createdAt"),
+                        result.getDate("updatedAt"),
+                        result.getDate("deletedAt")
+                ));
             }
             stmt.close();
             return list;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }finally {
-            cnn.close();
+            if(cnn != null)
+                cnn.close();
         }
     }
 
@@ -64,4 +72,19 @@ public class ConexionMySql {
         }
     }
 
+    public User getUser(String id) throws SQLException {
+        String sql = "SELECT * FROM users WHERE id = " + id;
+        try {
+            createConexion();
+            Statement stm = cnn.createStatement();
+            ResultSet result = stm.executeQuery(sql);
+            return new User(result.getString("name"), result.getString("lastName"));
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } finally {
+            if (cnn != null)
+                cnn.close();
+        }
+        return null;
+    }
 }
