@@ -73,11 +73,13 @@ public class ConexionMySql {
     }
 
     public User getUser(String id) throws SQLException {
-        String sql = "SELECT * FROM users WHERE id = " + id;
+        String sql = "SELECT * FROM users WHERE id = ?";
         try {
             createConexion();
-            Statement stm = cnn.createStatement();
-            ResultSet result = stm.executeQuery(sql);
+            PreparedStatement stm = cnn.prepareStatement(sql);
+            stm.setInt(1, Integer.parseInt(id));
+            ResultSet result = stm.executeQuery();
+            if(result.next())
             return new User(result.getString("name"), result.getString("lastName"));
         } catch (SQLException error) {
             error.printStackTrace();

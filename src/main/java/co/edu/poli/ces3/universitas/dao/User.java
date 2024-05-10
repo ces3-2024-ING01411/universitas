@@ -91,4 +91,9 @@ public class User {
     public void setDeteledAt(Date deteledAt) {
         this.deteledAt = deteledAt;
     }
+
+    @Override
+    public String toString() {
+        return "User: " + this.name + " " + this.lastName;
+    }
 }

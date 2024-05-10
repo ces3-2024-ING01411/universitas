@@ -18,7 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 @WebServlet(name = "userServlet", value = "/user")
-public class UserServlet extends HttpServlet {
+public class UserServlet extends MyServlet {
     private ConexionMySql cnn;
     private GsonBuilder gsonBuilder;
     private Gson gson;
@@ -41,13 +41,11 @@ public class UserServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
+        response.setContentType("application/json");
 
         // Hello
         PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h1>POST</h1>");
-        out.println("</body></html>");
+
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -59,7 +57,7 @@ public class UserServlet extends HttpServlet {
                 out.print(gson.toJson(listUsers));
             }else{
                 User user = cnn.getUser(request.getParameter("id"));
-                out.print(user);
+                out.print(gson.toJson(user));
             }
             out.flush();
         } catch (SQLException e) {
@@ -71,5 +69,10 @@ public class UserServlet extends HttpServlet {
     }
 
     public void destroy() {
+    }
+
+    @Override
+    void saludar() {
+
     }
 }
