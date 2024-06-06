@@ -2,8 +2,10 @@ package co.edu.poli.ces3.universitas.servlet;
 
 import co.edu.poli.ces3.universitas.dao.User;
 import co.edu.poli.ces3.universitas.database.ConexionMySql;
+import co.edu.poli.ces3.universitas.repositories.UserRepository;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+//import sun.jvm.hotspot.utilities.IntegerEnum;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
@@ -19,11 +21,11 @@ import java.util.ArrayList;
 
 @WebServlet(name = "userServlet", value = "/user")
 public class UserServlet extends MyServlet {
-    private ConexionMySql cnn;
+    private UserRepository repository;
     private GsonBuilder gsonBuilder;
     private Gson gson;
     public void init() {
-        cnn = new ConexionMySql();
+        repository = new UserRepository();
         gsonBuilder = new GsonBuilder();
         gson = gsonBuilder.create();
     }
@@ -53,10 +55,10 @@ public class UserServlet extends MyServlet {
         try {
             PrintWriter out = response.getWriter();
             if(request.getParameter("id") == null) {
-                ArrayList<User> listUsers = (ArrayList<User>) cnn.getUsers();
+                ArrayList<User> listUsers = (ArrayList<User>) repository.get();
                 out.print(gson.toJson(listUsers));
             }else{
-                User user = cnn.getUser(request.getParameter("id"));
+                User user = repository.getOne(Integer.parseInt(request.getParameter("id")));
                 out.print(gson.toJson(user));
             }
             out.flush();
@@ -66,6 +68,11 @@ public class UserServlet extends MyServlet {
         }
 
 
+    }
+
+    @Override
+    protected void doPatch(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+        super.doPatch(req, resp);
     }
 
     public void destroy() {
