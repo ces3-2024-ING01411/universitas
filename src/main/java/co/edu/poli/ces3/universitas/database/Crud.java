@@ -5,12 +5,12 @@ import co.edu.poli.ces3.universitas.dao.User;
 import java.sql.SQLException;
 import java.util.List;
 
-public interface Crud {
-    public void insert(User x);
+public interface Crud<E> {
+    public void insert(E x);
 
-    public void update(User x);
+    public void update(E x);
 
-    public List<User> get() throws SQLException;
+    public List<E> get() throws SQLException;
 
-    public User getOne(int id) throws SQLException;
+    public E getOne(int id) throws SQLException;
 }

@@ -11,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserRepository extends ConexionMySql implements Crud {
+public class UserRepository extends ConexionMySql implements Crud<User> {
     @Override
     public void insert(User x) {
 
