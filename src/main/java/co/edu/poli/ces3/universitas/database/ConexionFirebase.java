@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public class ConexionFirebase {
-
     public ConexionFirebase(){
         try {
             FileInputStream serviceAccount = new FileInputStream("src/main/resources/service-account.json");
